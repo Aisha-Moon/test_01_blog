@@ -11,8 +11,17 @@ class CategoryController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        //
+    {    //option 1
+        $data['categories']=Category::all();
+        return view('backend.category.index', $data);
+
+        //option 2
+        // $categories=Category::all();
+        // return view('backend.category.index',['categories'=>$categories]);
+
+        //option 3
+        // $categories=Category::all();
+        // return view('backend.category.index',compact('categories'));
     }
 
     /**
@@ -28,7 +37,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+    //    dd($request->all());
+        $data['name'] = $request->name;
+        $data['description'] = $request->description;
+        Category::create([
+            'name'=>$request->name,
+            'description'=>$request->description,
+        ]);
+
+        return redirect()->route('categories.index');
     }
 
     /**
