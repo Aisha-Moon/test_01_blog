@@ -23,7 +23,16 @@
           <tr>
             <td>{{$category->name}}</td>
             <td>{{$category->description}}</td>
-            <td><a class="btn btn-info btn-sm" href="{{route ('categories.show',$category->id)}}">Show details</a></td>
+            <td>
+              <a class="btn btn-info btn-sm" href="{{route ('categories.show',$category->id)}}">Show details</a>
+              <a class="btn btn-success btn-sm" href="{{route ('categories.edit',$category->id)}}">Update data</a>
+              <form class="d-inline-block" action="{{route ('categories.destroy',$category->id)}}" method="post" >
+                @csrf
+                @method('delete')
+                <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure delete this data?')">Delete</button>
+
+              </form>
+            </td>
             
           </tr>
           @endforeach

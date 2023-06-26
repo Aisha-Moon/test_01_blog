@@ -38,6 +38,10 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
     //    dd($request->all());
+    $request->validate([
+    'name' => 'required|max:255',
+    'description' => 'required',
+        ]);
         $data['name'] = $request->name;
         $data['description'] = $request->description;
         Category::create([
@@ -70,7 +74,17 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        //option 1
+
+        $data['category'] = $category;
+        return view('backend.category.edit', $data);
+
+      //option 2
+
+        // return view('backend.category.edit', ['category'=>$category]);
+
+      //option 3
+        // return view('backend.category.edit', compact('$category'));
     }
 
     /**
@@ -78,7 +92,25 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+
+
+        //option 1
+       //    dd($request->all());
+        // $data['name'] = $request->name;
+        // $data['description'] = $request->description;
+        // $category -> update($data);
+        // return redirect()->route('categories.index');
+ //option 2
+        // Category::where ('id',$category->id)->update([
+        //     'name'=>$request->name,
+        //     'description'=>$request->description,
+        // ]);
+
+        return redirect()->route('categories.index');
+     //option 3
+        $category->update($request->all());  
+        return redirect()->route('categories.index');
+
     }
 
     /**
@@ -86,6 +118,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+         return redirect()->route('categories.index');
+
     }
 }
